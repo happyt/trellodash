@@ -1,14 +1,16 @@
 {
-  "name": "mongotest",
+  "name": "trellodash",
   "version": "1.0.0",
-  "description": "looking at latest drivers",
-  "main": "index.js",
+  "description": "API to read stats from trello board",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
     "http": "0.0.0",
     "moment": "^2.14.1",
     "mongodb": "^2.2.5",

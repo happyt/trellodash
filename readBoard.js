@@ -79,6 +79,7 @@ MongoClient.connect(db, function(err, db) {
   boardId = "57a842b8e3aa33e109cf38c0";
     
 
+// early tests
 
 // read the data
     // https://trello.com/b/D4GKrqbv.json  -> all data, while in browser
@@ -205,10 +206,12 @@ MongoClient.connect(db, function(err, db) {
                   var month = "0" + (monthIndex+1);
                   month = month.substring(month.length - 2);
                   var year = date.getFullYear();
-                  var hour = date.getHours();
+                  var hour = "0" + date.getHours();
+                  hour = hour.substring(hour.length - 2);
                   var minute = date.getMinutes();
                   var seconds = date.getSeconds();
-                  var fdate = year + '-' + month + '-' + day + '-' + minute; 
+                  var fdate = year + '-' + month + '-' + day + '-' + hour; 
+//                  var fdate = year + '-' + month + '-' + day + '-13'; 
 
                   statData.id = boardId;
                   statData.id = boardCode;
