@@ -118,11 +118,11 @@ app.delete("/entries/:id", function(req, res) {
 });
 
 app.get("/counts/:name", function(req, res) {
-  db.collection(STATS_COLLECTION).find({ name: "Trello Stats" }, function(err, doc) {
+  db.collection(STATS_COLLECTION).find({ name: "Trello Stats" }).toArray( function(err, docs) {
     if (err) {
-      handleError(res, err.message, "Failed to get entry");
+      handleError(res, err.message, "Failed to get counts");
     } else {
-      res.status(200).json(doc);
+      res.status(200).json(docs);
     }
   });
 });
