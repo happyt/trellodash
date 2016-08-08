@@ -5,6 +5,7 @@ var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 
 var ENTRIES_COLLECTION = "entries";
+var STATS_COLLECTION = "counts";
 
 var app = express();
 app.use(express.static(__dirname + "/public"));
@@ -116,3 +117,12 @@ app.delete("/entries/:id", function(req, res) {
   });
 });
 
+app.get("/counts/:name", function(req, res) {
+  db.collection(STATS_COLLECTION).find({ name: "Trello Stats" }, function(err, doc) {
+    if (err) {
+      handleError(res, err.message, "Failed to get entry");
+    } else {
+      res.status(200).json(doc);
+    }
+  });
+});
