@@ -74,6 +74,9 @@ MongoClient.connect(db, function(err, db) {
   var boardName = "Election";
   var boardCode = "JThlckd6";
   var boardId = "578f672ecd5cde67aaf0a744";
+  boardName = "Trello Stats";
+  boardCode = "aVytHE1j";
+  boardId = "57a842b8e3aa33e109cf38c0";
     
 
 
