@@ -118,11 +118,65 @@ app.delete("/entries/:id", function(req, res) {
 });
 
 app.get("/counts/:board", function(req, res) {
-  db.collection(STATS_COLLECTION).find({ name: req.params.board}, {_id:0, name:1, logDate:1, totalCards:1, totalDone:1, totalTodo:1 }).toArray( function(err, docs) {
-    if (err) {
-      handleError(res, err.message, "Failed to get counts");
-    } else {
-      res.status(200).json(docs);
-    }
-  });
+  db.collection(STATS_COLLECTION).aggregate(
+    {$match:{name:req.params.board}},
+    {$unwind:"$lists"},
+    {$unwind:"$lists.cards"},
+    {$group: {
+        _id:{logDate: "$logDate", listname:"$lists.name"},
+        cards:{$sum:1},
+        todo:{$sum:"$lists.cards.todo"},
+        done:{$sum:"$lists.cards.done"}
+      }
+    },
+    {$sort:{_id:1}}
+    ).toArray( function(err, docs) {
+      if (err) {
+        handleError(res, err.message, "Failed to get counts");
+      } else {
+        res.status(200).json(docs);
+      }
+    });
 });
+
+app.get("/counts2/:board", function(req, res) {
+  db.collection(STATS_COLLECTION).aggregate(
+    {$match:{name:req.params.board}},
+    {$unwind:"$lists"},
+    {$unwind:"$lists.cards"},
+    {$group: {
+        _id:{logDate: "$logDate", listname:"$lists.name"},
+        cards:{$sum:1},
+        todo:{$sum:"$lists.cards.todo"},
+        done:{$sum:"$lists.cards.done"}
+      }
+    },
+    {$sort:{_id:1}}
+    ).toArray( function(err, docs) {
+      if (err) {
+        handleError(res, err.message, "Failed to get counts");
+      } else {
+        res.status(200).json(docs.sort());
+      }
+    });
+});
+// app.get("/counts/:board", function(req, res) {
+//   db.collection(STATS_COLLECTION).aggregate(
+//     {$match:{name:"Trello Stats"}},
+//     {$unwind:"$lists"},
+//     {$unwind:"$lists.cards"},
+//     {$sort:{logDate:1}},
+//     {$group: {_id:{logDate: "$logDate", listname:"$lists.name"}},
+//         cards:{$sum:1},
+//         todo:{$sum:"$lists.cards.todo"},
+//         done:{$sum:"$lists.cards.done"}
+//       },
+//     {$sort:{_id:1}}
+//     ).toArray( function(err, docs) {
+//       if (err) {
+//         handleError(res, err.message, "Failed to get counts");
+//       } else {
+//         res.status(200).json(docs);
+//       }
+//     });
+// });

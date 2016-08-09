@@ -1,7 +1,7 @@
+var config = require('./config');
 var http = require('http');
 var request = require('request');
-var key = "64532d61a0717998dd9b66dfb84beb21";
-var token = "2fe820b16904c26222b1719cc69f5adb42f0030740ff8f8f35207b1791f589f0";
+
 
 var MongoClient = require('mongodb').MongoClient
 var assert = require('assert');
@@ -74,10 +74,11 @@ MongoClient.connect(db, function(err, db) {
   var boardName = "Election";
   var boardCode = "JThlckd6";
   var boardId = "578f672ecd5cde67aaf0a744";
-  // boardName = "Trello Stats";
-  // boardCode = "aVytHE1j";
-  // boardId = "57a842b8e3aa33e109cf38c0";
-    
+  var hourly = false;
+  boardName = "Trello Stats";
+  boardCode = "aVytHE1j";
+  boardId = "57a842b8e3aa33e109cf38c0";
+  hourly = true;
 
 // early tests
 
@@ -85,13 +86,13 @@ MongoClient.connect(db, function(err, db) {
     // https://trello.com/b/D4GKrqbv.json  -> all data, while in browser
   var options = "&fields=name&cards=open&card_fields=all";
   //  options = "";
-  var url = "https://trello.com/b/" + boardCode + ".json?key=" + key + "&token=" + token + options;
+  var url = "https://trello.com/b/" + boardCode + ".json?key=" + config.trello.key + "&token=" + config.trello.token + options;
     // with options  2513 bytes -> card names
     // with no option  756 -> top level
 
 //  options = "cards=open&card_fields=all&idChecklists=all&checkItem_fields=name";
   options = "cards=open&card_fields=idChecklists,name&idChecklists=all&checkItem_fields=name";
-  url = "https://api.trello.com/1/boards/" + boardId + "/lists?" + options + "&key=" + key + "&token=" + token;
+  url = "https://api.trello.com/1/boards/" + boardId + "/lists?" + options + "&key=" + config.trello.key + "&token=" + config.trello.token;
 //  url = "https://api.trello.com/1/boards/" + boardId + "/checklists?" + options + "&key=" + key + "&token=" + token;
 //  url = "https://api.trello.com/1/boards/" + boardId + "/checklists?" + "&key=" + key + "&token=" + token;
     // with options card_fields=all -> 38094 bytes
@@ -151,7 +152,7 @@ MongoClient.connect(db, function(err, db) {
           }
 // then read another url, to get checklist data
 // for each checklist, save items done/todo
-          url = "https://api.trello.com/1/boards/" + boardId + "/checklists?" + "&key=" + key + "&token=" + token;
+          url = "https://api.trello.com/1/boards/" + boardId + "/checklists?" + "&key=" + config.trello.key + "&token=" + config.trello.token;
 
 //        console.log(url);
           request(url, function (error, response, body) {
@@ -210,8 +211,9 @@ MongoClient.connect(db, function(err, db) {
                   hour = hour.substring(hour.length - 2);
                   var minute = date.getMinutes();
                   var seconds = date.getSeconds();
-                  var fdate = year + '-' + month + '-' + day + '-' + hour; 
-//                  var fdate = year + '-' + month + '-' + day + '-13'; 
+                  var fdate = year + '-' + month + '-' + day; 
+                  if (hourly) fdate = fdate + '-' + hour;
+//                  var fdate = year + '-' + month + '-' + day + '-' + hour; 
 
                   statData.id = boardId;
                   statData.id = boardCode;
