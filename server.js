@@ -117,8 +117,8 @@ app.delete("/entries/:id", function(req, res) {
   });
 });
 
-app.get("/counts/:name", function(req, res) {
-  db.collection(STATS_COLLECTION).find({ name: "Trello Stats" }).toArray( function(err, docs) {
+app.get("/counts/:board", function(req, res) {
+  db.collection(STATS_COLLECTION).find({ name: req.params.board}, {_id:0, name:1, logDate:1}).toArray( function(err, docs) {
     if (err) {
       handleError(res, err.message, "Failed to get counts");
     } else {
