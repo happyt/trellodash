@@ -117,6 +117,8 @@ app.delete("/entries/:id", function(req, res) {
   });
 });
 
+
+// aggregate the db logged values to a more simple format
 app.get("/counts/:board", function(req, res) {
   db.collection(STATS_COLLECTION).aggregate(
     {$match:{name:req.params.board}},
