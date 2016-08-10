@@ -14,6 +14,7 @@ var cardCount = 0;
 var totalCards = 0;
 var totalTodo = 0;
 var totalDone = 0;
+var plainCards = 0;
 
 // initialised to show the structure
 var statData = {
@@ -75,10 +76,10 @@ MongoClient.connect(db, function(err, db) {
   var boardCode = "JThlckd6";
   var boardId = "578f672ecd5cde67aaf0a744";
   var hourly = false;
-  boardName = "Trello Stats";
-  boardCode = "aVytHE1j";
-  boardId = "57a842b8e3aa33e109cf38c0";
-  hourly = true;
+  // boardName = "Trello Stats";
+  // boardCode = "aVytHE1j";
+  // boardId = "57a842b8e3aa33e109cf38c0";
+  // hourly = true;
 
 // early tests
 
@@ -143,6 +144,10 @@ MongoClient.connect(db, function(err, db) {
                             id: mainData[i].cards[j].idChecklists[k]
                           })             
                         }
+                      }
+                      else {
+                        // have a card with no checklists
+                        plainCards++;
                       }
                     }
                   }
@@ -223,7 +228,9 @@ MongoClient.connect(db, function(err, db) {
                   statData.totalCards = totalCards;
                   statData.totalDone = totalDone;
                   statData.totalTodo = totalTodo;
+                  statData.plainCards = plainCards;
                   console.log("done/todo: ", totalDone, totalTodo);
+                  console.log("plain/cards: ", plainCards, totalCards);
                   console.log(fdate, minute);
 
               //         col.updateOne({a:3}, {$set: {b: 2}}, {
