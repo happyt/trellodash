@@ -11,8 +11,9 @@ Will be the base of editing a list of Trello boards and their codes
 - v2.0 required stats from database coming into the angular stream
     added web page to see data from db
 
+- API for data is http://localhost:8080/counts/Trello%20Stats
+
 
 ## Next 
 
-- Add chart to screen
-- Put figures into chart
+- Amend chart colours

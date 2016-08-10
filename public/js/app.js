@@ -110,18 +110,17 @@ angular.module("entriesApp", ['ngRoute', 'chart.js'])
             aTodo.push(counts.data[i].totalTodo);
             aCards.push(counts.data[i].totalCards);
         }
+        // extra for space to right
+        for (var i=0; i<10; i++) {
+            $scope.labels.push((i+counts.data.length).toString());
+        }
         //console.log(counts.data.length);
 
         $scope.data = myData;
- //       ChartJsProvider.setOptions({ colors : [ '#AA5580', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+        Chart.defaults.global.colors = [ '#AA5580', '#00ADF9', '#88DC00', '#555555', '#FDB45C', '#949FB1', '#4D5360'];
 
         $scope.series = ['Target', 'Todo', 'Done', 'Cards'];
-        // $scope.data = [
-        //     [65, 59, 80, 121, 56, 55, 40],
-        //     [28, 48, 40, 19, 86, 27, 90],
-        //     [2,   4,  5, 18, 7,   9, 16],
-        //     [52, 32, 12, 22, 67, 23, 40]
-        // ];
+
         $scope.onClick = function (points, evt) {
             console.log(points, evt);
         };
