@@ -18,6 +18,15 @@ angular.module("entriesApp", ['ngRoute'])
                 controller: "EditEntryController",
                 templateUrl: "entry.html"
             })
+            .when("/chart", {
+                controller: "ChartController",
+                templateUrl: "chart.html",
+                 resolve: {
+                    counts: function(ChartData) {
+                        return ChartData.getCounts();
+                    }
+                }
+            })
             .otherwise({
                 redirectTo: "/"
             })
@@ -70,6 +79,22 @@ angular.module("entriesApp", ['ngRoute'])
                 });
         }
     })
+
+    .service("ChartData", function($http) {
+        this.getCounts = function() {
+            return $http.get("/counts/Trello%20Stats").
+                then(function(response) {
+                    return response;
+                }, function(response) {
+                    alert("Error finding count data.");
+                });
+        }
+    })
+
+    .controller("ChartController", function(counts, $scope) {
+        $scope.counts = counts.data;
+    })
+
     .controller("ListController", function(entries, $scope) {
         $scope.entries = entries.data;
     })

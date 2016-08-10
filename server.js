@@ -123,8 +123,66 @@ app.get("/counts/:board", function(req, res) {
     {$unwind:"$lists"},
     {$unwind:"$lists.cards"},
     {$group: {
+       _id :{logDate : "$logDate", listname :"$lists.name" },      
+       totalCards : {$first :"$totalCards"},
+       totalTodo: {$first :"$totalTodo"},
+       totalDone : {$first :"$totalDone"},
+       plainCards : {$first :{ $ifNull: [ "$plainCards", {$literal : 2} ] }},
+       cards :{$sum : 1},
+       todo:{ $sum :"$lists.cards.todo" },
+       done :{$sum : "$lists.cards.done"}
+      }
+    },
+    {$project: {
+       _id : "$_id.logDate",
+       listName : "$_id.listname",
+       totalCards : "$totalCards",
+       totalTodo: "$totalTodo",
+       totalDone : "$totalDone",
+       plainCards : "$plainCards",
+       target :{ $add: ["$totalTodo" , { $multiply : [{$literal: 10 }, "$plainCards" ] }]},
+       cards : "$cards",
+       todo: "$todo",
+       done : "$done"
+      }
+    },
+    {$group : {
+       _id: "$_id",
+       totalCards : {$first :"$totalCards"},
+       totalTodo: {$first :"$totalTodo"},
+       totalDone : {$first :"$totalDone"},
+       plainCards : {$first :"$plainCards"},
+       target : {$first :"$target"},
+       listOut : { 
+         $push :  {
+            list : "$listName",
+            todo : "$todo",
+            done : "$done",
+            cards : "$cards"
+          }
+        }
+      }
+    },
+    {$sort:{_id:1}}
+    ).toArray( function(err, docs) {
+      if (err) {
+        handleError(res, err.message, "Failed to get counts");
+      } else {
+        res.status(200).json(docs);
+      }
+    });
+});
+
+// previous version - perhaps
+app.get("/counts1/:board", function(req, res) {
+  db.collection(STATS_COLLECTION).aggregate(
+    {$match:{name:req.params.board}},
+    {$unwind:"$lists"},
+    {$unwind:"$lists.cards"},
+    {$group: {
         _id:{logDate: "$logDate", listname:"$lists.name"},
         cards:{$sum:1},
+        plain:{plain:1},
         todo:{$sum:"$lists.cards.todo"},
         done:{$sum:"$lists.cards.done"}
       }
@@ -139,44 +197,26 @@ app.get("/counts/:board", function(req, res) {
     });
 });
 
-app.get("/counts2/:board", function(req, res) {
-  db.collection(STATS_COLLECTION).aggregate(
-    {$match:{name:req.params.board}},
-    {$unwind:"$lists"},
-    {$unwind:"$lists.cards"},
-    {$group: {
-        _id:{logDate: "$logDate", listname:"$lists.name"},
-        cards:{$sum:1},
-        todo:{$sum:"$lists.cards.todo"},
-        done:{$sum:"$lists.cards.done"}
-      }
-    },
-    {$sort:{_id:1}}
-    ).toArray( function(err, docs) {
-      if (err) {
-        handleError(res, err.message, "Failed to get counts");
-      } else {
-        res.status(200).json(docs.sort());
-      }
-    });
-});
-// app.get("/counts/:board", function(req, res) {
+// previous version - perhaps
+// app.get("/counts2/:board", function(req, res) {
 //   db.collection(STATS_COLLECTION).aggregate(
-//     {$match:{name:"Trello Stats"}},
+//     {$match:{name:req.params.board}},
 //     {$unwind:"$lists"},
 //     {$unwind:"$lists.cards"},
-//     {$sort:{logDate:1}},
-//     {$group: {_id:{logDate: "$logDate", listname:"$lists.name"}},
+//     {$group: {
+//         _id:{logDate: "$logDate", listname:"$lists.name"},
 //         cards:{$sum:1},
 //         todo:{$sum:"$lists.cards.todo"},
 //         done:{$sum:"$lists.cards.done"}
-//       },
+//       }
+//     },
 //     {$sort:{_id:1}}
 //     ).toArray( function(err, docs) {
 //       if (err) {
 //         handleError(res, err.message, "Failed to get counts");
 //       } else {
-//         res.status(200).json(docs);
+//         res.status(200).json(docs.sort());
 //       }
 //     });
 // });
+

@@ -21,6 +21,7 @@ var statData = {
     name: "board name",
     logDate: "",
     id: 1,
+    plainCards: 0,
     totalCards: 0,
     totalDone: 0,
     totalTodo: 0,
@@ -76,10 +77,10 @@ MongoClient.connect(db, function(err, db) {
   var boardCode = "JThlckd6";
   var boardId = "578f672ecd5cde67aaf0a744";
   var hourly = false;
-  // boardName = "Trello Stats";
-  // boardCode = "aVytHE1j";
-  // boardId = "57a842b8e3aa33e109cf38c0";
-  // hourly = true;
+  boardName = "Trello Stats";
+  boardCode = "aVytHE1j";
+  boardId = "57a842b8e3aa33e109cf38c0";
+  hourly = true;
 
 // early tests
 
