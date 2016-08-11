@@ -1,37 +1,49 @@
-<div class="row" ng-hide="contact._id">
+<div class="row" ng-hide="entry._id">
   <div class="col-md-6">
-      <h2>Create new entry</h2>
+      <h2>Entry details</h2>
   </div>
 </div>
 <div class="container">
   <div>
     <p>
-      <label>First Name (required)</label> 
-      <input id="name" class="form-control" type="text" ng-model="entry.firstName" required> 
+      <label>Board Name (required)</label> 
+      <input id="name" class="form-control" type="text" ng-model="entry.boardName" required> 
     </p>
     <p>
-      <label>Last Name (required)</label> 
-      <input id="name" class="form-control" type="text" ng-model="entry.lastName" required> 
+      <label>Board Code (from url - required)</label> 
+      <input id="name" class="form-control" type="text" ng-model="entry.boardCode" required> 
     </p>
     <p>
-      <label>Email (required)</label> 
-      <input id="name" class="form-control" type="text" ng-model="entry.email" required> 
+      <label>Enabled</label>
+      <input type="checkbox" id="chkEnabled" ng-model="entry.enabled">
+    </p>
+    <p>
+      <label>Chart title</label> 
+      <input id="name" class="form-control" type="text" ng-model="entry.chartName" required> 
+    </p>
+    <p>
+      <label>Board Id</label> 
+      <input id="name" class="form-control" type="text" ng-model="entry.boardId" required> 
+    </p>
+    <p>
+      <label>Email</label> 
+      <input id="name" class="form-control" type="text" ng-model="entry.contact.email" required> 
     </p>
     <p>
       <label>Phone (Mobile)</label> 
-      <input id="name" class="form-control" type="text" ng-model="entry.phone.mobile"> 
+      <input id="name" class="form-control" type="text" ng-model="entry.contact.mobile"> 
     </p>
     <p>
-      <label>Phone (Work)</label> 
-      <input id="name" class="form-control" type="text" ng-model="entry.phone.work"> 
+      <input type="date" id="dateStart" name="startDate" ng-model="entry.start"
+       placeholder="yyyy-MM-dd" min="2016-01-01" max="2020-12-31" required />
     </p>
     <p>
-      <label>Address</label> 
-      <input id="name" class="form-control" type="text" ng-model="entry.address"> 
+      <input type="date" id="dateEnd" name="endDate" ng-model="entry.end"
+       min="2016-01-01" max="2020-12-31" required />
     </p>
     <p>
-      <label>Twitter Handle</label> 
-      <input id="name" class="form-control" type="text" ng-model="entry.twitter"> 
+      <label>Hourly option</label>
+      <input type="checkbox" id="cbox1" ng-model="entry.hourly">
     </p>
     <p>
       <button style="margin-top:20px" class="btn btn-default" ng-click="saveEntry(entry)">Save</button>

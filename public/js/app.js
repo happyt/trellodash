@@ -22,8 +22,18 @@ angular.module("entriesApp", ['ngRoute', 'chart.js'])
                 controller: "ChartController",
                 templateUrl: "chart.html",
                  resolve: {
-                    counts: function(ChartData) {
-                        return ChartData.getCounts();
+                    stats: function(ChartData) {
+                        // default board name
+                        return ChartData.getCounts("Trello Stats");
+                    }
+                }
+            })
+            .when("/chart/:board", {
+                controller: "ChartController",
+                templateUrl: "chart.html",
+                 resolve: {
+                    stats: function(ChartData) {
+                        return ChartData.getCounts(board);
                     }
                 }
             })
@@ -81,42 +91,46 @@ angular.module("entriesApp", ['ngRoute', 'chart.js'])
     })
 
     .service("ChartData", function($http) {
-        this.getCounts = function() {
-            return $http.get("/counts/Trello%20Stats").
+        this.getCounts = function(board) {
+            return $http.get("/counts/" + board).
                 then(function(response) {
                     return response;
                 }, function(response) {
-                    alert("Error finding count data.");
+                    alert("Error finding count data: " + board);
                 });
         }
     })
 
-    .controller("ChartController", function(counts, $scope) {
-        $scope.counts = counts.data.sort(dynamicSort("_id"));;
+    .controller("ChartController", function(stats, $scope) {
+    // put into date order
+        $scope.counts = stats.data.sort(dynamicSort("_id"));
+ 
+        $scope.chartTitle = stats.data[0].boardName;
 
-     //   $scope.data = [];
         $scope.labels = [];
         var aTarget = [];
         var aDone = [];
         var aTodo = [];
         var aCards = [];
-        var myData = [aTarget, aTodo, aDone, aCards];
-
+ 
     //    $scope.labels = ["1", "2", "3", "4", "5", "6", "7"];
-        for (var i=0; i< counts.data.length; i++) {
+        for (var i=0; i< stats.data.length; i++) {
             $scope.labels.push(i.toString());
-            aTarget.push(counts.data[i].target);
-            aDone.push(counts.data[i].totalDone);
-            aTodo.push(counts.data[i].totalTodo);
-            aCards.push(counts.data[i].totalCards);
+            aTarget.push(stats.data[i].target);
+            aDone.push(stats.data[i].totalDone);
+            aTodo.push(stats.data[i].totalTodo);
+            aCards.push(stats.data[i].totalCards);
         }
         // extra for space to right
         for (var i=0; i<10; i++) {
-            $scope.labels.push((i+counts.data.length).toString());
+            $scope.labels.push((i+stats.data.length).toString());
         }
+        $scope.lineData = [aTarget, aTodo, aDone, aCards];
+
+
+
         //console.log(counts.data.length);
 
-        $scope.data = myData;
         Chart.defaults.global.colors = [ '#AA5580', '#00ADF9', '#88DC00', '#555555', '#FDB45C', '#949FB1', '#4D5360'];
 
         $scope.series = ['Target', 'Todo', 'Done', 'Cards'];
@@ -133,6 +147,46 @@ angular.module("entriesApp", ['ngRoute', 'chart.js'])
                 type: 'linear',
                 display: true,
                 position: 'left'
+                }
+            ]
+            }
+        };
+
+        // histos
+        $scope.histoLabels = [];
+        $scope.histoData = [];
+
+        var lastItem = stats.data[stats.data.length-1];
+        var nLists =  lastItem.listOut.length;
+        var haCards = [];
+        var haDone = [];
+        var haTodo = [];
+
+        for (var i=0; i<nLists; i++) {
+            $scope.histoLabels.push(lastItem.listOut[i].list);
+            haCards.push(lastItem.listOut[i].cards);
+            haTodo.push(lastItem.listOut[i].todo - lastItem.listOut[i].done);
+            haDone.push(lastItem.listOut[i].done);
+        }
+        $scope.histoData = [];
+        $scope.histoData.push(haCards);
+        $scope.histoData.push(haDone);
+        $scope.histoData.push(haTodo);
+        $scope.histoSeries = ['Cards', 'Done', 'Todo'];
+  //      $scope.histoData = [[6,4,3], [12,24,22], [33,21,11]];
+  //      $scope.histoLabels = ['Planned', 'In progress', 'Done'];
+        $scope.histoOptions = {
+            scales: {
+            yAxes: [
+                {
+                id: 'y-axis-1',
+                type: 'linear',
+                stacked: true
+                }
+            ],
+            xAxes: [
+                {
+                stacked: true
                 }
             ]
             }
@@ -196,6 +250,3 @@ function dynamicSort(property) {
     }
 }
 
-(function (ChartJsProvider) {
-  ChartJsProvider.setOptions({ colors : [ '#800000', '#999999', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
-});

@@ -65,9 +65,11 @@ app.post("/entries", function(req, res) {
   console.log("body:", req.body);
   newEntry.createDate = new Date();
 
-  if (!(req.body.firstName || req.body.lastName)) {
+  if (!(req.body.boardName || req.body.boardId)) {
     handleError(res, "Invalid input", "Must provide a board name or board id.", 400);
   }
+
+// find trello board id here?
 
   db.collection(ENTRIES_COLLECTION).insertOne(newEntry, function(err, doc) {
     if (err) {
@@ -125,7 +127,8 @@ app.get("/counts/:board", function(req, res) {
     {$unwind:"$lists"},
     {$unwind:"$lists.cards"},
     {$group: {
-       _id :{logDate : "$logDate", listname :"$lists.name" },      
+       _id :{logDate : "$logDate", listname :"$lists.name" }, 
+       boardName: {$first: "$name"},     
        totalCards : {$first :"$totalCards"},
        totalTodo: {$first :"$totalTodo"},
        totalDone : {$first :"$totalDone"},
@@ -137,6 +140,7 @@ app.get("/counts/:board", function(req, res) {
     },
     {$project: {
        _id : "$_id.logDate",
+       boardName : "$boardName",
        listName : "$_id.listname",
        totalCards : "$totalCards",
        totalTodo: "$totalTodo",
@@ -150,6 +154,7 @@ app.get("/counts/:board", function(req, res) {
     },
     {$group : {
        _id: "$_id",
+       boardName: {$first: "$boardName"},
        totalCards : {$first :"$totalCards"},
        totalTodo: {$first :"$totalTodo"},
        totalDone : {$first :"$totalDone"},

@@ -1,20 +1,15 @@
 <div class="col-md-6">
-      <h2>Stats view</h2>
+      <h2>{{ chartTitle }}</h2>
 </div>
 <div id="LineChart">
-  <canvas id="line" class="chart chart-line" chart-data="data"
+  <canvas id="line" class="chart chart-line" chart-data="lineData"
         chart-labels="labels" chart-series="series" chart-options="options"
         chart-dataset-override="datasetOverride" chart-click="onClick">
   </canvas>
 </div>
-<div class="container">
-  <table class="table table-hover">
-    <tbody>
-      <tr ng-repeat="count in counts" style="cursor:pointer">
-        <td>
-          <a>{{ count.totalCards }} {{ count.totalDone }} {{ count.totalTodo }} {{ count.target }}</a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div id="BarChart">
+  <canvas id="histo" class="chart chart-bar" chart-data="histoData"
+        chart-labels="histoLabels" chart-series="histoSeries" chart-options="histoOptions"
+        chart-dataset-override="datasetOverride" chart-click="onClick">
+  </canvas>
 </div>
