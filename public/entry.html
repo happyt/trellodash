@@ -17,6 +17,7 @@
   <div>
     <p ng-if="entry.chartName">Chart title: {{ entry.chartName }} </p>
     <p ng-if="entry.enabled">enabled: {{ entry.enabled }} </p>
+    <p ng-if="entry.live">live: {{ entry.live }} </p>
     <p ng-if="entry.start">start: {{ entry.start | date }} to {{ entry.end | date }} </p>
     <p ng-if="entry.hourly">hourly: {{ entry.hourly }} </p>
     <p ng-if="entry.contact.email">email: <a ng-href="mailto:{{ entry.contact.email }}" target="_blank">{{ entry.contact.email }}</a></p>

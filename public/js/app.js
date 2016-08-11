@@ -152,6 +152,15 @@ angular.module("entriesApp", ['ngRoute', 'chart.js'])
             }
         };
 
+        // doughnut
+
+        $scope.doughnutLabels = ["Contingency", "To do", "Done"];
+
+        var dnTarget = aTarget[aTarget.length - 1];
+        var dnDone = aDone[aTarget.length - 1];
+        var dnTodo = aTodo[aTarget.length - 1];
+        $scope.doughnutData = [dnTarget-dnTodo, dnTodo - dnDone, dnDone];
+
         // histos
         $scope.histoLabels = [];
         $scope.histoData = [];
