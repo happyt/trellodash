@@ -3,7 +3,7 @@ var http = require('http');
 var request = require('request');
 
 
-var MongoClient = require('mongodb').MongoClient
+var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
 // data
@@ -146,7 +146,7 @@ MongoClient.connect(db, function(err, db) {
                         for (var k=0; k<mainData[i].cards[j].idChecklists.length; k++) {
                           statData.lists[i].cards[j].checklists.push({
                             id: mainData[i].cards[j].idChecklists[k]
-                          })             
+                          });             
                         }
                       }
                       else {
@@ -248,7 +248,7 @@ MongoClient.connect(db, function(err, db) {
            //           console.log("rc:", r.upsertedCount);
                         assert.equal(null, err);
                  //     assert.equal(1, r.upsertedCount);
-                        console.log(r.upsertedCount + " written...")
+                        console.log(r.upsertedCount + " written...");
                         db.close();
                   });
               }
@@ -261,7 +261,7 @@ function findCardById(root, id) {
     if (root.lists.length > 0) {
         for (var k in root.lists) {
            if (root.lists[k].cards.length > 0) {
-               for (c in root.lists[k].cards) {
+               for (var c in root.lists[k].cards) {
       //            console.log(root.lists[k].cards[c].id);
                   if (root.lists[k].cards[c].id == id) {
                       return root.lists[k].cards[c];
@@ -270,4 +270,4 @@ function findCardById(root, id) {
            }
         }
     }
-};
+}
