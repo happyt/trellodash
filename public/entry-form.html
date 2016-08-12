@@ -14,12 +14,21 @@
       <input id="name" class="form-control" type="text" ng-model="entry.boardCode" required> 
     </p>
     <p>
-      <label>Enabled</label>
+      <button type="button" class="btn btn-primary ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched" 
+                  ng-model="entry.enabled" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+        Single Toggle
+    </button>
+      <label>Enabled</label><ng-md-icon icon="check_box"></ng-md-icon> 
       <input type="checkbox" id="chkEnabled" ng-model="entry.enabled">
-    </p>    
-    <p>
-      <label>Live to display</label>
+      -:-
+      <label>Live</label><ng-md-icon icon="live-circle"></ng-md-icon> 
       <input type="checkbox" id="chkLive" ng-model="entry.live">
+      -:-
+      <label>Cards or checklists</label>
+      <input type="checkbox" id="chkCards" ng-model="entry.cards">
+      -:-
+      <label>Hourly option</label>
+      <input type="checkbox" id="chkHourly" ng-model="entry.hourly">
     </p>
     <p>
       <label>Chart title</label> 
@@ -44,10 +53,6 @@
     <p>
       <input type="date" id="dateEnd" name="endDate" ng-model="entry.end"
        min="2016-01-01T23:00:00.000Z" max="2018-01-01T23:00:00.000Z" required />
-    </p>
-    <p>
-      <label>Hourly option</label>
-      <input type="checkbox" id="cbox1" ng-model="entry.hourly">
     </p>
     <p>
       <button style="margin-top:20px" class="btn btn-default" ng-click="saveEntry(entry)">Save</button>

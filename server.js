@@ -1,3 +1,4 @@
+var stats = require("./stats");
 var express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
@@ -65,19 +66,23 @@ app.post("/entries", function(req, res) {
   console.log("body:", req.body);
   newEntry.createDate = new Date();
 
-  if (!(req.body.boardName || req.body.boardId)) {
-    handleError(res, "Invalid input", "Must provide a board name or board id.", 400);
+  if (!req.body.boardName || !req.body.boardCode) {
+    handleError(res, "Invalid input, Must provide a board name AND board id.", 400);
   }
+  else {
 
 // find trello board id here?
+    url = "https://trello.com/b" + boardCode + ".json";
+  
 
-  db.collection(ENTRIES_COLLECTION).insertOne(newEntry, function(err, doc) {
-    if (err) {
-      handleError(res, err.message, "Failed to create new entry.");
-    } else {
-      res.status(201).json(doc.ops[0]);
-    }
-  });
+    db.collection(ENTRIES_COLLECTION).insertOne(newEntry, function(err, doc) {
+      if (err) {
+        handleError(res, err.message, "Failed to create new entry.");
+      } else {
+        res.status(201).json(doc.ops[0]);
+      }
+    });
+  }
 });
 
 /*  "/entries/:id"
@@ -204,26 +209,28 @@ app.get("/counts1/:board", function(req, res) {
     });
 });
 
-// previous version - perhaps
-// app.get("/counts2/:board", function(req, res) {
-//   db.collection(STATS_COLLECTION).aggregate(
-//     {$match:{name:req.params.board}},
-//     {$unwind:"$lists"},
-//     {$unwind:"$lists.cards"},
-//     {$group: {
-//         _id:{logDate: "$logDate", listname:"$lists.name"},
-//         cards:{$sum:1},
-//         todo:{$sum:"$lists.cards.todo"},
-//         done:{$sum:"$lists.cards.done"}
-//       }
-//     },
-//     {$sort:{_id:1}}
-//     ).toArray( function(err, docs) {
-//       if (err) {
-//         handleError(res, err.message, "Failed to get counts");
-//       } else {
-//         res.status(200).json(docs.sort());
-//       }
-//     });
-// });
+app.get("/trigger", function(req, res) {
+  db.collection(ENTRIES_COLLECTION).find({}).toArray(function(err, docs) {
+    if (err) {
+      handleError(res, err.message, "Failed to get entries.");
+    } else {
+
+      if (docs.length > 0) {
+        for (var i=0; i<docs.length; i++) {
+          if (docs[i].enabled) {
+            stats.update(docs[i].boardName, docs[i].boardCode, docs[i].boardId, docs[i].hourly );
+            console.log("Enabled...", docs[i].boardName);
+          }
+        }
+      }
+
+
+
+
+
+
+      res.status(200).json({"reply": "OK"});
+    }
+  });
+});
 

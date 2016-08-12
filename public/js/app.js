@@ -1,4 +1,4 @@
-angular.module("entriesApp", ['ngRoute', 'chart.js'])
+angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
     .config(function($routeProvider) {
         $routeProvider
             .when("/", {
@@ -112,10 +112,20 @@ angular.module("entriesApp", ['ngRoute', 'chart.js'])
         var aDone = [];
         var aTodo = [];
         var aCards = [];
+        var lastTime = "";
+        var nextTime = "";
  
     //    $scope.labels = ["1", "2", "3", "4", "5", "6", "7"];
         for (var i=0; i< stats.data.length; i++) {
-            $scope.labels.push(i.toString());
+            // just display the day, for hourly, or week for daily
+            nextTime = stats.data[i]._id.substr(8,2);
+            if (nextTime == lastTime) {
+                $scope.labels.push("");
+            } else {
+                $scope.labels.push(nextTime);
+            }
+            lastTime = nextTime;
+            
             aTarget.push(stats.data[i].target);
             aDone.push(stats.data[i].totalDone);
             aTodo.push(stats.data[i].totalTodo);
@@ -123,7 +133,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js'])
         }
         // extra for space to right
         for (var i=0; i<10; i++) {
-            $scope.labels.push((i+stats.data.length).toString());
+            $scope.labels.push("");
         }
         $scope.lineData = [aTarget, aTodo, aDone, aCards];
 
