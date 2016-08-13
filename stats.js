@@ -103,7 +103,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
     //            console.log("Length: " + body.length + "\n");
                 mainData = JSON.parse(body);
 
-                console.log("TRELLO 1...");
+                console.log("TRELLO 1...processing");
     // calculate the stats
                 if (Array.isArray(mainData)) {
                 if (mainData.length > 0) {
@@ -226,14 +226,18 @@ exports.update = function (tName, tCode, tId, tHourly) {
                         {$set: statData},
                         {upsert: true},
                         function(err, r) {
-                       console.log("rc:", r.upsertedCount);
-                            assert.equal(null, err);
-                            assert.equal(1, r.upsertedCount);
-                            console.log(r.upsertedCount + " written...");
+                            if (err){
+                                console.warn(err.message);  // returns error if no matching object found
+                            }else{
+                                console.log("rc:", r.upsertedCount);
+                                assert.equal(null, err);
+                                assert.equal(1, r.upsertedCount);
+                                console.log(r.upsertedCount + " written...");
+                            }
                             db.close();
-                    });
-                }
-            });
+                        });
+                    }
+                });
             }
         });
     });
