@@ -1,5 +1,5 @@
-var MongoClient = require('mongodb').MongoClient
-  , assert = require('assert');
+var MongoClient = require('mongodb').MongoClient, 
+        assert = require('assert');
 
 // Connection URL
 var url = 'mongodb://localhost:27017/myproject';
@@ -76,10 +76,9 @@ MongoClient.connect(url, function(err, db) {
     // Remove a document from MongoDB and return it
     col.findOneAndDelete({a:1}, {
         sort: {a:1}
-      }
-      , function(err, r) {
+      }, function(err, r) {
         assert.equal(null, err);
-        assert.ok(r.value.b == null);
+        assert.ok(r.value.b === null);
         db.close();
     });
   });
