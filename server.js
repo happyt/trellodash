@@ -213,9 +213,10 @@ app.get("/trigger", function(req, res) {
   console.log("TRIGGERED...");
   db.collection(ENTRIES_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
+      consoole.log("Failed to get entries");
       handleError(res, err.message, "Failed to get entries.");
     } else {
-
+      console.log("NEXT...");
       if (docs.length > 0) {
         for (var i=0; i<docs.length; i++) {
           if (docs[i].enabled) {
@@ -224,12 +225,6 @@ app.get("/trigger", function(req, res) {
           }
         }
       }
-
-
-
-
-
-
       res.status(200).json({"reply": "OK"});
     }
   });
