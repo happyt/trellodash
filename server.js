@@ -210,6 +210,7 @@ app.get("/counts1/:board", function(req, res) {
 });
 
 app.get("/trigger", function(req, res) {
+  console.log("TRIGGERED...");
   db.collection(ENTRIES_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
       handleError(res, err.message, "Failed to get entries.");

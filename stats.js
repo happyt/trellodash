@@ -103,7 +103,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
     //            console.log("Length: " + body.length + "\n");
                 mainData = JSON.parse(body);
 
-
+                console.log("TRELLO 1...");
     // calculate the stats
                 if (Array.isArray(mainData)) {
                 if (mainData.length > 0) {
@@ -149,7 +149,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
 
     //        console.log(url);
             request(url, function (error, response, body) {
-                console.log("2nd response code: " + response.statusCode);
+                console.log("TRELLO 2nd response code: " + response.statusCode);
 
                 if (error) {
                     console.log("Error: " + error);
