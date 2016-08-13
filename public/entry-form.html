@@ -13,10 +13,14 @@
       <label>Board Code (from url - required)</label> 
       <input id="name" class="form-control" type="text" ng-model="entry.boardCode" required> 
     </p>
-    <p>
+    <div class="btn-group">
+        <label class="btn btn-primary" ng-model="entry.contact.mobile" uib-btn-radio="'Left'">Left</label>
+        <label class="btn btn-primary" ng-model="entry.contact.mobile" uib-btn-radio="'Right'">Right</label>
+    </div>
+        <p>
       <button type="button" class="btn btn-primary ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched" 
                   ng-model="entry.enabled" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
-        Single Toggle
+        Toggle
     </button>
       <label>Enabled</label><ng-md-icon icon="check_box"></ng-md-icon> 
       <input type="checkbox" id="chkEnabled" ng-model="entry.enabled">
@@ -51,7 +55,7 @@
        placeholder="yyyy-MM-dd" min="2016-01-01T23:00:00.000Z" max="2018-01-01T23:00:00.000Z" required />
     </p>
     <p>
-      <input type="date" id="dateEnd" name="endDate" ng-model="entry.end"
+      <input type="date" id="dateEnd" name="endDate" ng-model="date" value={{date}}
        min="2016-01-01T23:00:00.000Z" max="2018-01-01T23:00:00.000Z" required />
     </p>
     <p>
