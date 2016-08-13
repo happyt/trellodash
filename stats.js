@@ -71,7 +71,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
     // Use connect method to connect to the server
     MongoClient.connect(db, function(err, db) {
     assert.equal(null, err);
-    console.log("Connected succesfully to server");
+    console.log("STATS Connected to server");
 
 
     // the board code, found from database?
@@ -165,30 +165,27 @@ exports.update = function (tName, tCode, tId, tHourly) {
     // if array > 0 length
                         if (checkData.length > 0) {
     // for each object, 
-                        for (var i=0; i<checkData.length; i++) {
-                            checkItems = checkData[i].checkItems.length;
-    // this should have items to be in the list, but check anyway
-                            if (checkItems > 0) {
-                            for (var j=0; j<checkItems; j++) {
-                                totalTodo++;
-                                if (checkData[i].checkItems[j].state == "complete") totalDone++;
+                            for (var i=0; i<checkData.length; i++) {
+                                checkItems = checkData[i].checkItems.length;
+        // this should have items to be in the list, but check anyway
+                                if (checkItems > 0) {
+                                    for (var j=0; j<checkItems; j++) {
+                                        totalTodo++;
+                                        if (checkData[i].checkItems[j].state == "complete") totalDone++;
 
-    // find card with this checklist id, get list and card indexes
-                            cardId = checkData[i].idCard;
-                            var bla = findCardById(statData, cardId);
-                            if (bla) {
-                                bla.todo++;
-                                if (checkData[i].checkItems[j].state == "complete") bla.done++;                             
-                            } else {
-                                console.log("card id not found:", cardId);
+            // find card with this checklist id, get list and card indexes
+                                        cardId = checkData[i].idCard;
+                                        var bla = findCardById(statData, cardId);
+                                        if (bla) {
+                                            bla.todo++;
+                                            if (checkData[i].checkItems[j].state == "complete") bla.done++;                             
+                                        } else {
+                                            console.log("card id not found:", cardId);
+                                        }
+                                    }
+        // update todo/done based on state == incomplete/complete
+                                }
                             }
-
-    // update todo/done based on state == incomplete/complete
-
-
-                            }
-                            }
-                        }
                         }
                     }
 
@@ -229,9 +226,9 @@ exports.update = function (tName, tCode, tId, tHourly) {
                         {$set: statData},
                         {upsert: true},
                         function(err, r) {
-            //           console.log("rc:", r.upsertedCount);
+                       console.log("rc:", r.upsertedCount);
                             assert.equal(null, err);
-                    //     assert.equal(1, r.upsertedCount);
+                            assert.equal(1, r.upsertedCount);
                             console.log(r.upsertedCount + " written...");
                             db.close();
                     });
