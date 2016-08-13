@@ -66,7 +66,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
     statData.lists = [];
 
     // Connection URL
-    var db = 'mongodb://localhost:27017/myproject';
+    var db = process.env.MONGODB_URI || 'mongodb://localhost:27017/myproject';
 
     // Use connect method to connect to the server
     MongoClient.connect(db, function(err, db) {
@@ -255,21 +255,6 @@ function findCardById(root, id) {
                   }                   
                }
            }
-        }
-    }
-}
-
-function findCardById(root, id) {
-    if (root.lists.length > 0) {
-        for (var k in root.lists) {
-        if (root.lists[k].cards.length > 0) {
-            for (var c in root.lists[k].cards) {
-    //            console.log(root.lists[k].cards[c].id);
-                if (root.lists[k].cards[c].id == id) {
-                    return root.lists[k].cards[c];
-                }                   
-            }
-        }
         }
     }
 }
