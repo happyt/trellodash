@@ -55,7 +55,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
                 then(function(response) {
                     return response;
                 }, function(response) {
-                    alert("Error creating entry.");
+                    alert("Error creating entry." + response);
                 });
         }
         this.getEntry = function(entryId) {

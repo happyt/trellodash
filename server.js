@@ -67,12 +67,12 @@ app.post("/entries", function(req, res) {
   newEntry.createDate = new Date();
 
   if (!req.body.boardName || !req.body.boardCode) {
-    handleError(res, "Invalid input, Must provide a board name AND board id.", 400);
+    handleError(res, "Invalid input, Must provide a board name AND boardCode.", 400);
   }
   else {
 
 // find trello board id here?
-    url = "https://trello.com/b" + boardCode + ".json";
+    url = "https://trello.com/b" + req.body.boardCode + ".json";
   
 
     db.collection(ENTRIES_COLLECTION).insertOne(newEntry, function(err, doc) {
