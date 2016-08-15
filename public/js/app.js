@@ -120,8 +120,26 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
 
     //    $scope.labels = ["1", "2", "3", "4", "5", "6", "7"];
         for (var i=0; i< stats.data.length; i++) {
+
+            var thedate = stats.data[i]._id;
+            // if daily data, not hourly
+            if (thedate.length === 10) {
+                // need a week number
+                dy = parseInt(thedate.substr(0,4));
+                dm = parseInt(thedate.substr(6,2))-1;
+                dd = parseInt(thedate.substr(8,2));
+                
+                var dt = new Date(dy, dm, dd);
+                var week =  weekOfYear(dt);
+                nextTime = week.toString();   
+            }
+            else {
             // just display the day, for hourly, or week for daily
-            nextTime = stats.data[i]._id.substr(8,2);
+                nextTime = stats.data[i]._id.substr(8,2);
+            }
+
+
+
             if (nextTime == lastTime) {
                 $scope.labels.push("");
             } else {
@@ -295,5 +313,11 @@ function dynamicSort(property) {
         var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
         return result * sortOrder;
     }
-}
+};
 
+var weekOfYear = function(date){
+    var d = new Date(+date);
+    d.setHours(0,0,0);
+    d.setDate(d.getDate()+4-(d.getDay()||7));
+    return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
+};
