@@ -33,7 +33,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
                 templateUrl: "chart.html",
                  resolve: {
                     stats: function(ChartData) {
-                        console.log("Board:", $routeParams.board);
+//                        console.log("Board:", board);
                         return ChartData.getCounts(board);
                     }
                 }
@@ -101,16 +101,6 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
                 });
         }
     })
-
-
-    // .controller("EditEntryController", function($scope, $routeParams, Entries) {
-    //     Entries.getEntry($routeParams.entryId).then(function(doc) {
-    //         $scope.entry = doc.data;
-    //     }, function(response) {
-    //         alert(response);
-    //     });
-
-
 
     .controller("ChartController", function(stats, $scope) {
     // put into date order
@@ -184,16 +174,31 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
         var dnTodo = aTodo[aTarget.length - 1];
         $scope.doughnutData = [dnTarget-dnTodo, dnTodo - dnDone, dnDone];
 
-// try to add centre figyure
+        var pc = (dnDone * 100)/(dnTarget);
+        var pcRounded = parseFloat(Math.round(pc * 10) / 10).toFixed(1);
 
-//  var canvas2 = document.getElementById("doughnut");
-// var ctx = canvas2.getContext("2d");
-// ctx.font = "30px Arial";
-// ctx.fillStyle = "blue";
-// ctx.textAlign = "center";
-// ctx.fillText("99%", 10, canvas2.height/2); 
-// ctx.fillStyle = "#FF0000";
-// ctx.fillRect(20,20,150,75); 
+// try to add score figyure
+
+        var canvas2 = document.getElementById("score");
+        var ctx = canvas2.getContext("2d");
+        ctx.font = "26px Arial";
+        ctx.fillStyle = "blue";
+        ctx.stroke.width = 3;
+
+        var boxWidth = canvas2.height * 0.6;
+        var boxHeight = canvas2.height * 0.6;
+        var boxTop = (canvas2.height - boxHeight) /2;
+        var boxLeft = 4;
+        ctx.lineWidth="6";
+        ctx.strokeStyle="blue";
+        ctx.rect(boxLeft, boxTop, boxWidth, boxHeight-6);
+        ctx.stroke();
+        ctx.lineWidth="2";
+        ctx.strokeStyle="red";
+        ctx.stroke();
+        ctx.textAlign = "center";
+        ctx.fillText(pcRounded + "%", boxLeft + boxWidth/2, boxTop + boxHeight/2); 
+
         // histos
         $scope.histoLabels = [];
         $scope.histoData = [];
