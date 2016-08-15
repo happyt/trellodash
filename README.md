@@ -15,5 +15,13 @@ Will be the base of editing a list of Trello boards and their codes
 
 
 ## Next 
+- Chart board selection
+- Week numbers
+- cards version
+- Recent actions list
 
+## Later
+- Add score in circle ?
 - Amend chart colours
+- Heroku test
+- Azure test

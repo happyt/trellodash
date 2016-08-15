@@ -227,11 +227,11 @@ exports.update = function (tName, tCode, tId, tHourly) {
                         {upsert: true},
                         function(err, r) {
                             if (err){
-                                console.warn(err.message);  // returns error if no matching object found
+                                console.warn("Upsert error: " + err.message);  // returns error if no matching object found
                             }else{
                                 console.log("rc:", r.upsertedCount);
                                 assert.equal(null, err);
-                                assert.equal(1, r.upsertedCount);
+                         //       assert.equal(1, r.upsertedCount);
                                 console.log(r.upsertedCount + " written...");
                             }
                             db.close();

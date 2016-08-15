@@ -33,13 +33,14 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
                 templateUrl: "chart.html",
                  resolve: {
                     stats: function(ChartData) {
+                        console.log("Board:", $routeParams.board);
                         return ChartData.getCounts(board);
                     }
                 }
             })
             .otherwise({
                 redirectTo: "/"
-            })
+            });
     })
     .service("Entries", function($http) {
         this.getEntries = function() {
@@ -49,7 +50,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
                 }, function(response) {
                     alert("Error finding entries.");
                 });
-        }
+        };
         this.createEntry = function(entry) {
             return $http.post("/entries", entry).
                 then(function(response) {
@@ -101,6 +102,16 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
         }
     })
 
+
+    // .controller("EditEntryController", function($scope, $routeParams, Entries) {
+    //     Entries.getEntry($routeParams.entryId).then(function(doc) {
+    //         $scope.entry = doc.data;
+    //     }, function(response) {
+    //         alert(response);
+    //     });
+
+
+
     .controller("ChartController", function(stats, $scope) {
     // put into date order
         $scope.counts = stats.data.sort(dynamicSort("_id"));
@@ -115,6 +126,8 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
         var lastTime = "";
         var nextTime = "";
  
+
+
     //    $scope.labels = ["1", "2", "3", "4", "5", "6", "7"];
         for (var i=0; i< stats.data.length; i++) {
             // just display the day, for hourly, or week for daily
@@ -171,6 +184,16 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
         var dnTodo = aTodo[aTarget.length - 1];
         $scope.doughnutData = [dnTarget-dnTodo, dnTodo - dnDone, dnDone];
 
+// try to add centre figyure
+
+//  var canvas2 = document.getElementById("doughnut");
+// var ctx = canvas2.getContext("2d");
+// ctx.font = "30px Arial";
+// ctx.fillStyle = "blue";
+// ctx.textAlign = "center";
+// ctx.fillText("99%", 10, canvas2.height/2); 
+// ctx.fillStyle = "#FF0000";
+// ctx.fillRect(20,20,150,75); 
         // histos
         $scope.histoLabels = [];
         $scope.histoData = [];
