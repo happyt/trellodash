@@ -71,7 +71,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
     // Use connect method to connect to the server
     MongoClient.connect(db, function(err, db) {
     assert.equal(null, err);
-    console.log("STATS Connected to server");
+//    console.log("STATS Connected to server");
 
 
     // the board code, found from database?
@@ -93,7 +93,8 @@ exports.update = function (tName, tCode, tId, tHourly) {
 
 //        console.log("Url", url);
         request(url, function (error, response, body) {
-            console.log("Response code: " + response.statusCode);
+ //           console.log("Response code: " + response.statusCode + ", " + url);
+           console.log("Response code: " + response.statusCode);
 
             if (error) {
                 console.log("Error: " + error);

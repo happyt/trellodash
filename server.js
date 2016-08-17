@@ -127,6 +127,7 @@ app.delete("/entries/:id", function(req, res) {
 
 // aggregate the db logged values to a more simple format
 app.get("/counts/:board", function(req, res) {
+  console.log("counts/board..." + req.params.board);
   db.collection(STATS_COLLECTION).aggregate(
     {$match:{name:req.params.board}},
     {$unwind:"$lists"},
@@ -185,35 +186,12 @@ app.get("/counts/:board", function(req, res) {
     });
 });
 
-// previous version - perhaps
-app.get("/counts1/:board", function(req, res) {
-  db.collection(STATS_COLLECTION).aggregate(
-    {$match:{name:req.params.board}},
-    {$unwind:"$lists"},
-    {$unwind:"$lists.cards"},
-    {$group: {
-        _id:{logDate: "$logDate", listname:"$lists.name"},
-        cards:{$sum:1},
-        plain:{plain:1},
-        todo:{$sum:"$lists.cards.todo"},
-        done:{$sum:"$lists.cards.done"}
-      }
-    },
-    {$sort:{_id:1}}
-    ).toArray( function(err, docs) {
-      if (err) {
-        handleError(res, err.message, "Failed to get counts");
-      } else {
-        res.status(200).json(docs);
-      }
-    });
-});
 
 app.get("/trigger", function(req, res) {
   console.log("TRIGGERED...");
   db.collection(ENTRIES_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
-      consoole.log("Failed to get entries");
+      console.log("Failed to get entries");
       handleError(res, err.message, "Failed to get entries.");
     } else {
       console.log("NEXT...");
@@ -221,7 +199,7 @@ app.get("/trigger", function(req, res) {
         for (var i=0; i<docs.length; i++) {
           if (docs[i].enabled) {
             stats.update(docs[i].boardName, docs[i].boardCode, docs[i].boardId, docs[i].hourly );
-            console.log("Enabled...", docs[i].boardName);
+            console.log("Updated...", docs[i].boardName);
           }
         }
       }
