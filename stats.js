@@ -88,7 +88,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
     var boardId = tId;
     var hourly = tHourly;
 
-    var options = "cards=open&card_fields=idChecklists,name&idChecklists=all&checkItem_fields=name";
+    var options = "cards=open&card_fields=idChecklists,name,labels&idChecklists=all&checkItem_fields=name";
     var url = "https://api.trello.com/1/boards/" + boardId + "/lists?" + options + "&key=" + config.trello.key + "&token=" + config.trello.token;
 
 //        console.log("Url", url);
@@ -107,41 +107,52 @@ exports.update = function (tName, tCode, tId, tHourly) {
                 console.log("TRELLO 1...processing");
     // calculate the stats
                 if (Array.isArray(mainData)) {
-                if (mainData.length > 0) {
-                    for (var i=0; i<mainData.length; i++) {
-                    mainName = mainData[i].name;
-                    cardCount = mainData[i].cards.length;
-                    totalCards += cardCount;
-                    statData.lists.push({
-                        name: mainName,
-                        id: mainData[i].id,
-                        cards: []
-                    });
-                    if (cardCount > 0) {
-                        for (var j=0; j<cardCount; j++) {
-                        statData.lists[i].cards.push({
-                            name: mainData[i].cards[j].name,
-                            id: mainData[i].cards[j].id,
-                            done: 0,
-                            todo: 0,
-                            checklists: []
+                    if (mainData.length > 0) {
+                        for (var i=0; i<mainData.length; i++) {
+                        mainName = mainData[i].name;
+                        cardCount = mainData[i].cards.length;
+                        totalCards += cardCount;
+                        statData.lists.push({
+                            name: mainName,
+                            id: mainData[i].id,
+                            cards: []
                         });
-        // for each card, add id of checklists
-                        if (mainData[i].cards[j].idChecklists.length > 0) {
-                            for (var k=0; k<mainData[i].cards[j].idChecklists.length; k++) {
-                            statData.lists[i].cards[j].checklists.push({
-                                id: mainData[i].cards[j].idChecklists[k]
-                            });             
+                        if (cardCount > 0) {
+                            for (var j=0; j<cardCount; j++) {
+                                statData.lists[i].cards.push({
+                                    name: mainData[i].cards[j].name,
+                                    id: mainData[i].cards[j].id,
+                                    done: 0,
+                                    todo: 0,
+                                    checklists: [],
+                                    labels: []
+                                });
+            // for each card, add colours of labels
+                                if (mainData[i].cards[j].labels.length > 0) {
+                                    for (var k=0; k<mainData[i].cards[j].labels.length; k++) {
+                                        statData.lists[i].cards[j].labels.push({
+                                            name: mainData[i].cards[j].labels[k].name,
+                                            colour: mainData[i].cards[j].labels[k].color
+                                        });             
+                                    }
+                                }
+                                
+            // for each card, add id of checklists
+                                if (mainData[i].cards[j].idChecklists.length > 0) {
+                                    for (var ck=0; ck<mainData[i].cards[j].idChecklists.length; ck++) {
+                                        statData.lists[i].cards[j].checklists.push({
+                                            id: mainData[i].cards[j].idChecklists[ck]
+                                        });             
+                                    }
+                                }
+                                else {
+                                    // have a card with no checklists
+                                    plainCards++;
+                                }
                             }
                         }
-                        else {
-                            // have a card with no checklists
-                            plainCards++;
-                        }
-                        }
+                        console.log(mainName, "cards, ", cardCount);
                     }
-                    console.log(mainName, "cards, ", cardCount);
-                }
                 }
             }
     // then read another url, to get checklist data
