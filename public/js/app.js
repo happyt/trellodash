@@ -127,7 +127,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
             if (thedate.length === 10) {
                 // need a week number
                 dy = parseInt(thedate.substr(0,4));
-                dm = parseInt(thedate.substr(6,2))-1;
+                dm = parseInt(thedate.substr(5,2))-1;
                 dd = parseInt(thedate.substr(8,2));
                 
                 var dt = new Date(dy, dm, dd);
@@ -196,7 +196,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
         var pc = (dnDone * 100)/(dnTarget);
         var pcRounded = parseFloat(Math.round(pc * 10) / 10).toFixed(1);
 
-// try to add score figyure
+// try to add score figure
 
         var canvas2 = document.getElementById("score");
         var ctx = canvas2.getContext("2d");
