@@ -152,7 +152,7 @@ app.get("/counts/:board", function(req, res) {
        totalTodo: "$totalTodo",
        totalDone : "$totalDone",
        plainCards : "$plainCards",
-       target :{ $add: ["$totalTodo" , { $multiply : [{$literal: 10 }, "$plainCards" ] }]},
+       target :{ $add: ["$totalTodo" , { $multiply : [{$literal: 2 }, "$plainCards" ] }]},
        cards : "$cards",
        todo: "$todo",
        done : "$done"
