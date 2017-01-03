@@ -19,6 +19,7 @@
         <td>
           <a ng-href="#/entry/{{entry._id}}">{{ entry.boardName }} - {{ entry.boardCode }}</a>
           <span ng-style="{'visibility': entry.enabled?'visible':'hidden'}">Enabled</span>
+          <span><a class="btn btn-success"  ng-href="#/chart/{{entry.boardName}}">CHART</a></span>
         </td>
       </tr>
     </tbody>

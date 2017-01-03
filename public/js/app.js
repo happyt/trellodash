@@ -24,7 +24,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
                  resolve: {
                     stats: function(ChartData) {
                         // default board name
-                        console.log("Here is TS");
+     //                   console.log("Here is TS");
                         return ChartData.getCounts("Trello Stats");
                     }
                 }

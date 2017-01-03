@@ -1,8 +1,10 @@
+var config = require('./config');
 var stats = require("./stats");
 var express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
+var request = require('request-promise');
 var ObjectID = mongodb.ObjectID;
 
 var ENTRIES_COLLECTION = "entries";
@@ -72,16 +74,38 @@ app.post("/entries", function(req, res) {
   else {
 
 // find trello board id here?
-    url = "https://trello.com/b" + req.body.boardCode + ".json";
+    url = "https://trello.com/b/" + req.body.boardCode + ".json?key=" + config.trello.key + "&token=" + config.trello.token;
+    console.log("get url:", url);
+    const options = {
+        uri: url,
+        json: true,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
   
+    request(options).then(function (response){
+//        console.log("response:", response);
+        newEntry.boardId = response.id;
+        console.log("id:", response.id);
 
-    db.collection(ENTRIES_COLLECTION).insertOne(newEntry, function(err, doc) {
-      if (err) {
-        handleError(res, err.message, "Failed to create new entry.");
-      } else {
-        res.status(201).json(doc.ops[0]);
-      }
+        db.collection(ENTRIES_COLLECTION).insertOne(newEntry, function(err, doc) {
+        if (err) {
+          handleError(res, err.message, "Failed to create new entry.");
+        } else {
+          res.status(201).json(doc.ops[0]);
+        }
+
     });
+       // res.status(200).json(response);
+    })
+    .catch(function (err) {
+        console.log(err);
+    })
+
+
+
+   
   }
 });
 
