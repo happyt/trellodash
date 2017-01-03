@@ -162,7 +162,7 @@ app.get("/counts/:board", function(req, res) {
        totalCards : {$first :"$totalCards"},
        totalTodo: {$first :"$totalTodo"},
        totalDone : {$first :"$totalDone"},
-       plainCards : {$first :{ $ifNull: [ "$plainCards", {$literal : 2} ] }},
+       plainCards : {$first :{ $ifNull: [ "$plainCards", {$literal : 5} ] }},
        cards :{$sum : 1},
        todo:{ $sum :"$lists.cards.todo" },
        done :{$sum : "$lists.cards.done"}
@@ -176,7 +176,7 @@ app.get("/counts/:board", function(req, res) {
        totalTodo: "$totalTodo",
        totalDone : "$totalDone",
        plainCards : "$plainCards",
-       target :{ $add: ["$totalTodo" , { $multiply : [{$literal: 2 }, "$plainCards" ] }]},
+       target :{ $add: ["$totalTodo" , { $multiply : [{$literal: 5 }, "$plainCards" ] }]},
        cards : "$cards",
        todo: "$todo",
        done : "$done"
