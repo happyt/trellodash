@@ -51,8 +51,12 @@ Jan 2017
 - no hot reloading, need to save code, stop/restart to test each change 
 - dates are unused
 
+## Remote
+- just 'git push heroku master' to release new version
+
 ## Next ideas...
 - add a value for each board to scale contingency
+- get version automatically from build
 - save tags?
 - save people? 
 - cards version
