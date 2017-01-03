@@ -20,7 +20,7 @@ Board Name once the figures have been started.
 - Normally the figures will be kept for the final state each day.
 - An Hourly option is for a hackday, to show progress at hourly intervals. 
 - To record the current state, http://trellodash.herokuapp.com/trigger
-
+- The trigger function could be driven automatically from a trello board update
 
 IanM 2015
 

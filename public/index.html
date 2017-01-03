@@ -33,13 +33,14 @@
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <div class="navbar-brand" href="#/">Trello Dash v2.4</div>
+          <div class="navbar-brand"><a href="#/">Trello Dash v2.4</a></div>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li ui-sref="#/chart" ui-sref-active="active-menu"><a href="#/chart">Chart</a></li>
             <li ng-class="{ active: ($location.path() == '#/')}"><a href="#/">Boards</a></li>
           </ul>
+          <a class="btn btn-info" style="margin-top:8px" href="trigger">UPDATE</a>
         </div>
       </div>
     </nav>
