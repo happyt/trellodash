@@ -1,6 +1,6 @@
 {
   "name": "trellodash",
-  "version": "1.0.0",
+  "version": "2.4.1",
   "description": "API to read stats from trello board",
   "main": "server.js",
   "scripts": {

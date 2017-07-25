@@ -57,6 +57,7 @@ Jan 2017
 ## Next ideas...
 - add a value for each board to scale contingency
 - get version automatically from build
+- add bugs, features checklists show separately
 - save tags?
 - save people? 
 - cards version
