@@ -74,15 +74,6 @@ exports.update = function (tName, tCode, tId, tHourly) {
 //    console.log("STATS Connected to server");
 
 
-    // the board code, found from database?
-    // var boardName = "Election";
-    // var boardCode = "6l9rqMkb";
-    // var boardId = "57ac5efbd8d028a46981679b";
-    // var hourly = false;
-    // boardName = "Trello Stats";
-    // boardCode = "aVytHE1j";
-    // boardId = "57a842b8e3aa33e109cf38c0";
-    // hourly = true;
     var boardName = tName;
     var boardCode = tCode;
     var boardId = tId;

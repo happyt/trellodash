@@ -103,9 +103,6 @@ app.post("/entries", function(req, res) {
         console.log(err);
     })
 
-
-
-   
   }
 });
 
