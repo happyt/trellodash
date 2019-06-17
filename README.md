@@ -47,6 +47,8 @@ Jan 2017
 ## Local testing
 - need a mongodb database running
 - collection used is 'myproject'
+- pull from github, run yarn install
+- add config.js with trell auth
 - node server will start the server, display port
 - no hot reloading, need to save code, stop/restart to test each change 
 - dates are unused

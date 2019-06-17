@@ -11,7 +11,7 @@
     </p>
     <p>
       <label>Board Code (from url - required)</label> 
-      <input id="name" class="form-control" type="text" ng-model="entry.boardCode" required> 
+      <input id="code" class="form-control" type="text" ng-model="entry.boardCode" required> 
     </p>
         <p>
       <label>Enabled</label> 
@@ -43,12 +43,12 @@
       <input id="name" class="form-control" type="text" ng-model="entry.contact.mobile"> 
     </p>
     <p>
-      <input type="date" id="dateStart" name="startDate" ng-model="entry.start"
-       placeholder="yyyy-MM-dd" min="2016-01-01T23:00:00.000Z" max="2018-01-01T23:00:00.000Z" required />
+      <input type="date"  id="dateStart" name="startDate" ng-model="entry.start"
+       placeholder="yyyy-MM-dd" min="2016-01-01T23:00:00.000Z" max="2020-01-01T23:00:00.000Z" required />
     </p>
-    <p>
-      <input type="date" id="dateEnd" name="endDate" ng-model="date" value={{date}}
-       min="2016-01-01T23:00:00.000Z" max="2018-01-01T23:00:00.000Z" required />
+    <p>d
+      <input type="date"  id="dateEnd" name="endDate" ng-model="entry.end" value={{date}}
+       min="2016-01-01T23:00:00.000Z" max="2020-01-01T23:00:00.000Z" required />
     </p>
     <p>
       <button style="margin-top:20px" class="btn btn-success" ng-click="saveEntry(entry)">Save</button>

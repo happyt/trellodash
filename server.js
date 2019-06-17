@@ -50,7 +50,7 @@ function handleError(res, reason, message, code) {
 
 /*  "/entries"
  *    GET: finds all entries
- *    POST: creates a new contact
+ *    POST: creates a new project entry
  */
 
 app.get("/entries", function(req, res) {
@@ -107,9 +107,9 @@ app.post("/entries", function(req, res) {
 });
 
 /*  "/entries/:id"
- *    GET: find contact by id
- *    PUT: update contact by id
- *    DELETE: deletes contact by id
+ *    GET: find entry by id
+ *    PUT: update entry by id
+ *    DELETE: deletes entry by id
  */
 
 app.get("/entries/:id", function(req, res) {
@@ -124,6 +124,7 @@ app.get("/entries/:id", function(req, res) {
 
 app.put("/entries/:id", function(req, res) {
   var updateDoc = req.body;
+  console.log("put body:", req.body);
   delete updateDoc._id;
 
   db.collection(ENTRIES_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
@@ -136,6 +137,7 @@ app.put("/entries/:id", function(req, res) {
 });
 
 app.delete("/entries/:id", function(req, res) {
+  console.log("delete body:", req.body);
   db.collection(ENTRIES_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
     if (err) {
       handleError(res, err.message, "Failed to delete entry");

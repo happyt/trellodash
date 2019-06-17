@@ -44,6 +44,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
             });
     })
     .service("Entries", function($http) {
+        console.log("here")
         this.getEntries = function() {
             return $http.get("/entries").
                 then(function(response) {
@@ -53,6 +54,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
                 });
         };
         this.createEntry = function(entry) {
+            console.log("create " + entry._id);
             return $http.post("/entries", entry).
                 then(function(response) {
                     return response;
@@ -71,7 +73,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
         }
         this.editEntry = function(entry) {
             var url = "/entries/" + entry._id;
-            console.log(entry._id);
+            console.log("edit " + entry._id);
             return $http.put(url, entry).
                 then(function(response) {
                     return response;
@@ -268,6 +270,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
         }
 
         $scope.saveEntry = function(entry) {
+            console.log("save " + entry._id);
             Entries.createEntry(entry).then(function(doc) {
                 var entryUrl = "/entry/" + doc.data._id;
                 $location.path(entryUrl);
@@ -294,6 +297,7 @@ angular.module("entriesApp", ['ngRoute', 'chart.js', 'ngMdIcons'])
         }
 
         $scope.saveEntry = function(entry) {
+            console.log("saving...?")
             Entries.editEntry(entry);
             $scope.editMode = false;
             $scope.entryFormUrl = "";
