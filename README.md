@@ -44,6 +44,9 @@ Jan 2017
 - added button on list to go to chart for that Entry
 - this link is http://localhost:8080/#/chart/Trello%20Stats   (default was Trello%20Stats)
 
+June 2019
+- add auto release to heroku, no need to push
+
 ## Local testing
 - need a mongodb database running
 - collection used is 'myproject'
