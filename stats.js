@@ -80,7 +80,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
     var hourly = tHourly;
 
     var options = "cards=open&card_fields=idChecklists,name,labels&idChecklists=all&checkItem_fields=name";
-    var url = "https://api.trello.com/1/boards/" + boardId + "/lists?" + options + "&key=" + config.trello.key + "&token=" + config.trello.token;
+    var url = "https://api.trello.com/1/boards/" + boardId + "/lists?" + options + "&key=" + process.env.TRELLOKEY + "&token=" + process.env.TRELLOTOKEN;
 
 //        console.log("Url", url);
         request(url, function (error, response, body) {
