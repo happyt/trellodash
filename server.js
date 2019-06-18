@@ -19,6 +19,10 @@ var PORT = process.env.PORT || 8080;
 // Connection URL
 var DBLINK = process.env.MONGODB_URI || 'mongodb://localhost:27017/myproject';
 
+var TRELLOKEY = process.env.TRELLO_KEY || config.trello.key;
+var TRELLOTOKEN = process.env.TRELLO_TOKEN || config.trello.token;
+
+
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 
@@ -74,7 +78,7 @@ app.post("/entries", function(req, res) {
   else {
 
 // find trello board id here?
-    url = "https://trello.com/b/" + req.body.boardCode + ".json?key=" + config.trello.key + "&token=" + config.trello.token;
+    url = "https://trello.com/b/" + req.body.boardCode + ".json?key=" + TRELLOKEY + "&token=" + TRELLOTOKEN;
     console.log("get url:", url);
     const options = {
         uri: url,
