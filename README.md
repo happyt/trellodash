@@ -36,6 +36,7 @@ Will be the base of editing a list of Trello boards and their codes
 - v1.0 branched to crudbase - uses names and 'entries' db collection
 - v2.0 required stats from database coming into the angular stream
     added web page to see data from db
+- v3.0 enabling start/end dates
 
 - API for data is http://localhost:8080/counts/Trello%20Stats
 
@@ -46,6 +47,7 @@ Jan 2017
 
 June 2019
 - add auto release to heroku, no need to push, needed reauth
+- change to allow for heroku env variables
 
 ## Local testing
 - need a mongodb database running
@@ -54,7 +56,7 @@ June 2019
 - add config.js with trell auth
 - node server will start the server, display port
 - no hot reloading, need to save code, stop/restart to test each change 
-- dates are unused
+- dates are set in database, but don't appear in edit screen
 
 ## Remote
 - just 'git push heroku master' to release new version

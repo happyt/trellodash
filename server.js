@@ -18,7 +18,6 @@ app.use(bodyParser.json());
 var PORT = process.env.PORT || 8080; 
 // Connection URL
 var DBLINK = process.env.MONGODB_URI || 'mongodb://localhost:27017/myproject';
-
 var TRELLOKEY = process.env.TRELLO_KEY || config.trello.key;
 var TRELLOTOKEN = process.env.TRELLO_TOKEN || config.trello.token;
 
