@@ -148,7 +148,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
             }
     // then read another url, to get checklist data
     // for each checklist, save items done/todo
-            url = "https://api.trello.com/1/boards/" + boardId + "/checklists?" + "&key=" + config.trello.key + "&token=" + config.trello.token;
+            url = "https://api.trello.com/1/boards/" + boardId + "/checklists?" + "&key=" + process.env.TRELLOKEY + "&token=" + process.env.TRELLOTOKEN;
 
     //        console.log(url);
             request(url, function (error, response, body) {
