@@ -80,7 +80,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
     var hourly = tHourly;
 
     var options = "cards=open&card_fields=idChecklists,name,labels&idChecklists=all&checkItem_fields=name";
-    var url = "https://api.trello.com/1/boards/" + boardId + "/lists?" + options + "&key=" + process.env.TRELLOKEY + "&token=" + process.env.TRELLOTOKEN;
+    var url = "https://api.trello.com/1/boards/" + boardId + "/lists?" + options + "&key=" + process.env.TRELLO_KEY + "&token=" + process.env.TRELLO_TOKEN;
 
 //        console.log("Url", url);
         request(url, function (error, response, body) {
@@ -148,7 +148,7 @@ exports.update = function (tName, tCode, tId, tHourly) {
             }
     // then read another url, to get checklist data
     // for each checklist, save items done/todo
-            url = "https://api.trello.com/1/boards/" + boardId + "/checklists?" + "&key=" + process.env.TRELLOKEY + "&token=" + process.env.TRELLOTOKEN;
+            url = "https://api.trello.com/1/boards/" + boardId + "/checklists?" + "&key=" + process.env.TRELLO_KEY + "&token=" + process.env.TRELLO_TOKEN;
 
     //        console.log(url);
             request(url, function (error, response, body) {
